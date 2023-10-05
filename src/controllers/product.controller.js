@@ -15,7 +15,6 @@ const createProduct = catchAsync(async (req, res) => {
 
 const getProduct = catchAsync(async (req, res) => {
   const filter = pick(req.query, ['name', 'category']);
-  console.log(filter, "filter")
   const options = pick(req.query, ['sortBy', 'limit', 'page']);
   const result = await productService.queryProduct(filter, options);
   const { data, limit, page, totalResults, totalPages } = result;
