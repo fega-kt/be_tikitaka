@@ -22,12 +22,22 @@ const login = catchAsync(async (req, res) => {
   const { email, password } = req.body;
   const user = await authService.loginUserWithEmailAndPassword(email, password);
   const tokens = await tokenService.generateAuthTokens(user);
-  res.send({ user, tokens });
+  const { access, refresh } = tokens;
+  const dataUser = user._doc
+  const data = {
+    access_token: access.token,
+    refresh_token: refresh.token,
+    expires: new Date(access.expires) * 1,
+    expiresrefresh_token: new Date(refresh.expires) * 1,
+    user: dataUser
+  }
+  // return res.send({ user, tokens });
+  return res.status(httpStatus.CREATED).json({ data });
 });
 
 const logout = catchAsync(async (req, res) => {
   await authService.logout(req.body.refreshToken);
-  res.status(httpStatus.NO_CONTENT).send();
+  res.status(httpStatus.NO_CONTENT).send({ message: "Logout successfully" });
 });
 
 const refreshTokens = catchAsync(async (req, res) => {
