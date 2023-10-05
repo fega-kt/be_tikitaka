@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const validator = require('validator');
 const bcrypt = require('bcryptjs');
 const { toJSON, paginate } = require('./plugins');
-const { status } = require('../config/status');
+const { status } = require('../config/constantConfig');
 
 const categoriesSchema = mongoose.Schema(
   {

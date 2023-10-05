@@ -3,7 +3,7 @@ const validator = require('validator');
 const bcrypt = require('bcryptjs');
 const { toJSON, paginate } = require('./plugins');
 const { roles } = require('../config/roles');
-const { status } = require('../config/status');
+const { status } = require('../config/constantConfig');
 
 const userSchema = mongoose.Schema(
   {
