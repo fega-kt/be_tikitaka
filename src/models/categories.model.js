@@ -17,6 +17,10 @@ const categoriesSchema = mongoose.Schema(
       enum: Object.values(status),
       default: status.ACTIVE
     },
+    order: {
+      type: Number,
+      default: 1
+    },
     value: {
       type: String,
       required: true,
