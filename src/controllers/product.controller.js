@@ -30,7 +30,19 @@ const getProduct = catchAsync(async (req, res) => {
   return res.json({ data: dataResult })
 });
 
+const getProductById = catchAsync(async (req, res) => {
+  const product = await productService.getProductById(req.params.productId);
+  if (!product) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'product not found');
+  }
+  res.send({
+    data: product,
+    message: "Lấy chi tiết sản phẩm thành công"
+  });
+});
+
 module.exports = {
   getProduct,
-  createProduct
+  createProduct,
+  getProductById
 };

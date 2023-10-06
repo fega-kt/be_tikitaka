@@ -11,6 +11,9 @@ router
   .route('/')
   .get(productController.getProduct)
   .post(auth('User'), productController.createProduct);
+router
+  .route('/:productId')
+  .get(productController.getProductById)
 
 
 module.exports = router;
