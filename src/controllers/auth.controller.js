@@ -1,7 +1,8 @@
 const httpStatus = require('http-status');
 const catchAsync = require('../utils/catchAsync');
 const { authService, userService, tokenService, emailService } = require('../services');
-
+const nodemailer = require('nodemailer');
+const { handleGetContentEmail } = require('../config/contentEmail');
 const register = catchAsync(async (req, res) => {
   const user = await userService.createUser(req.body);
   const tokens = await tokenService.generateAuthTokens(user);
@@ -15,6 +16,31 @@ const register = catchAsync(async (req, res) => {
     expiresrefresh_token: new Date(refresh.expires) * 1,
     user: dataUser
   }
+  // return res.send({ user, tokens });
+  const transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+      user: 'notifications.tikitaka@gmail.com',
+      pass: 'kpuw oxra yldr zlcu'
+    }
+  });
+
+  const mailOptions = {
+    from: 'notifications.tikitaka@gmail.com',
+    to: 'fega.kt@gmail.com',
+    subject: 'Chào mừng bạn đến với sàn thương mại điện tử Tiki Taka',
+    text: "",
+    html: handleGetContentEmail(dataUser.name, 'Tiki Taka', 'http://localhost:3456', 'http://localhost:3456', '')
+  };
+
+  // Send email
+  transporter.sendMail(mailOptions, (error, info) => {
+    if (error) {
+      console.error('Error:', error);
+    } else {
+      console.log('Email sent:', info.response);
+    }
+  });
   return res.status(httpStatus.CREATED).json({ data });
 });
 
@@ -31,7 +57,7 @@ const login = catchAsync(async (req, res) => {
     expiresrefresh_token: new Date(refresh.expires) * 1,
     user: dataUser
   }
-  // return res.send({ user, tokens });
+
   return res.status(httpStatus.CREATED).json({ data });
 });
 
