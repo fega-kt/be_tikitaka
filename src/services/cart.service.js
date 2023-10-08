@@ -19,6 +19,9 @@ const updateCart = async (filter, update) => {
     new: true
   });
 };
+const getCartFilter = async (filter) => {
+  return Cart.find(filter)
+}
 const getCartById = async (id) => {
   return Cart.findById(id);
 };
@@ -32,5 +35,6 @@ module.exports = {
   createCart,
   getCartById,
   getCartByIdProductTemp,
-  updateCart
+  updateCart,
+  getCartFilter
 };

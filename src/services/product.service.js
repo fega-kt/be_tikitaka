@@ -9,7 +9,10 @@ const queryProduct = async (filter, options) => {
   const products = await Product.paginate(filter, options);
   return products;
 };
-
+const getProductOneFilter = async (filter) => {
+  const products = await Product.findOne(filter);
+  return products;
+};
 const createProduct = async (userBody) => {
   return Product.create(userBody);
 };
@@ -22,5 +25,5 @@ module.exports = {
   queryProduct,
   createProduct,
   getProductById,
-
+  getProductOneFilter
 };

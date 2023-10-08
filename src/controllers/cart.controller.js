@@ -2,8 +2,8 @@ const httpStatus = require('http-status');
 const pick = require('../utils/pick');
 const ApiError = require('../utils/ApiError');
 const catchAsync = require('../utils/catchAsync');
-const { cartService } = require('../services');
-const { statusCart } = require('../config/constantConfig');
+const { cartService, productService } = require('../services');
+const { statusCart, status } = require('../config/constantConfig');
 
 // const createUser = catchAsync(async (req, res) => {
 //   const user = await userService.createUser(req.body);
@@ -48,10 +48,38 @@ const addToCart = catchAsync(async (req, res) => {
 
   }
 })
-
+const buyProduct = catchAsync(async (req, res) => {
+  const data = req.body;
+  const listProduct = data.map((it) => {
+    const filter = {
+      status: status.ACTIVE,
+      quantity: { $gte: it.buy_count }
+    }
+    return productService.getProductOneFilter(filter)
+  })
+  const products = await Promise.all(listProduct)
+  const idxInvalid = products.findIndex((item => !item));
+  if (idxInvalid > -1) {
+    //  có sản phẩm không hợp lệ
+    const itemInvalid = data[idxInvalid]
+    const product = await productService.getProductById(itemInvalid.product_id);
+    if (product.status === status.INACTIVE || !product) {
+      return res.status(httpStatus.BAD_REQUEST).send({ message: `Sản phẩm ${product.name} không tồn tại` });
+    } else {
+      return res.status(httpStatus.BAD_REQUEST).send({ message: `Số lượng sản phẩm ${product.name} chỉ còn ${product.quantity}` });
+    }
+  }
+  const listProductUpdate = data.map((it) => {
+    // Cập nhật thành trạng thái chờ xác nhận
+    return cartService.updateCart({ _id: it._id }, { status: statusCart.WAIT_FOR_CONFIRMATION })
+  });
+  const productsUpdate = await Promise.all(listProductUpdate);
+  return res.status(httpStatus.OK).send(productsUpdate);
+})
 module.exports = {
   getCarts,
   addToCart,
+  buyProduct
   // getUsers,
   // getUser,
   // updateUser,

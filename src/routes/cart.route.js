@@ -13,6 +13,9 @@ router
 router
   .route('/add-to-cart')
   .post(auth('getCart'), cartController.addToCart)
+router
+  .route('/buy-products')
+  .post(auth('getCart'), cartController.buyProduct)
 // .get(auth('getCart'), cartController.getCarts);
 
 // router
