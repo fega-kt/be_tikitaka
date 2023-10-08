@@ -11,7 +11,7 @@ const { statusCart, status } = require('../config/constantConfig');
 // });
 
 const getCarts = catchAsync(async (req, res) => {
-  const filter = pick(req.query, ['status']);
+  const filter = pick(req.query, ['status']) || {};
   if (filter.status === '0') {
     const status = statusCart;
     delete status.DELETED;
@@ -19,7 +19,8 @@ const getCarts = catchAsync(async (req, res) => {
     filter.status = { $in: Object.values(statusCart) }
   }
   const query = {
-    populate: 'product_id'
+    populate: 'product_id',
+    limit: Number.MAX_SAFE_INTEGER
   }
   const options = pick(query, ['populate']);
   const result = await cartService.queryCart(filter, options);
@@ -42,6 +43,7 @@ const addToCart = catchAsync(async (req, res) => {
     product_id
   } = req.body
   const foundProduct = await cartService.getCartByIdProductTemp(product_id, statusCart.TEMP);
+  console.log(foundProduct, 'foundProduct')
   if (foundProduct) {
     // update tăng thêm 1
     const cart = await cartService.updateCart({ product_id }, { buy_count: foundProduct.buy_count + buy_count });
