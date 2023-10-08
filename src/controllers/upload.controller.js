@@ -17,10 +17,11 @@ const uploadFile = catchAsync(async (req, res) => {
     type: path.extname(file.path).toLowerCase(),
     name: file.originalname
   }
+  console.log(111111111, req)
   const upload = await uploadService.createUpload(body);
   const data = {
     message: "Upload ảnh đại diện thành công",
-    data: file.path
+    data: path.resolve(req.file.path)
   }
   res.status(httpStatus.OK).send(data);
 });

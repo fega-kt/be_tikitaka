@@ -13,9 +13,9 @@ const userSchema = mongoose.Schema(
       trim: true,
       maxlenth: 30,
       minlenth: 2,
-      validate(value) {
-        const isAlpha = /^[a-zA-Z]+$/;
-        if (!isAlpha.test(value)) {
+      validate(value = '') {
+        const isAlpha = /^[a-zA-Z ]+$/;
+        if (!isAlpha.test(value.normalize("NFD").replace(/[\u0300-\u036f]/g, ""))) {
           throw new Error('Invalid name');
         }
       },
@@ -44,6 +44,7 @@ const userSchema = mongoose.Schema(
         }
       },
     },
+    avatar: String,
     address: String,
     password: {
       type: String,
