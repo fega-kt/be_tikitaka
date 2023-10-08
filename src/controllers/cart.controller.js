@@ -22,7 +22,7 @@ const getCarts = catchAsync(async (req, res) => {
     populate: 'product_id',
     limit: Number.MAX_SAFE_INTEGER
   }
-  const options = pick(query, ['populate']);
+  const options = pick(query, ['populate', 'limit']);
   const result = await cartService.queryCart(filter, options);
   let { data } = result;
   data = data.map((it) => {
