@@ -7,7 +7,16 @@ const typeDiscount = {
   "%": "Phần trăm",
   "VND": "VNĐ"
 }
+const statusCart = {
+  TEMP: -1,
+  WAIT_FOR_CONFIRMATION: 1,
+  WAITING_FOR_PICKUP: 2,
+  ON_DELIVERY: 3,
+  DELIVERED: 4,
+  CANCELLED: 5
+}
 module.exports = {
   status,
-  typeDiscount
+  typeDiscount,
+  statusCart
 };
