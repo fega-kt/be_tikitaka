@@ -14,6 +14,11 @@ const queryCart = async (filter, options) => {
 const createCart = async (userBody) => {
   return Cart.create(userBody);
 };
+const updateCart = async (filter, update) => {
+  return Cart.findOneAndUpdate(filter, update, {
+    new: true
+  });
+};
 const getCartById = async (id) => {
   return Cart.findById(id);
 };
@@ -26,5 +31,6 @@ module.exports = {
   queryCart,
   createCart,
   getCartById,
-  getCartByIdProductTemp
+  getCartByIdProductTemp,
+  updateCart
 };

@@ -38,6 +38,8 @@ const addToCart = catchAsync(async (req, res) => {
   const foundProduct = await cartService.getCartByIdProductTemp(product_id, statusCart.TEMP);
   if (foundProduct) {
     // update tăng thêm 1
+    const cart = await cartService.updateCart({ product_id }, { buy_count: foundProduct.buy_count + buy_count });
+    return res.status(httpStatus.CREATED).send(cart);
   } else {
     // create
     const body = { buy_count, product_id }
