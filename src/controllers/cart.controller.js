@@ -12,6 +12,12 @@ const { statusCart, status } = require('../config/constantConfig');
 
 const getCarts = catchAsync(async (req, res) => {
   const filter = pick(req.query, ['status']);
+  if (filter.status === '0') {
+    const status = statusCart;
+    delete status.DELETED;
+    delete status.TEMP;
+    filter.status = { $in: Object.values(statusCart) }
+  }
   const query = {
     populate: 'product_id'
   }
