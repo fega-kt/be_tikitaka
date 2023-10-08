@@ -11,6 +11,14 @@ const userSchema = mongoose.Schema(
       type: String,
       required: true,
       trim: true,
+      maxlenth: 30,
+      minlenth: 2,
+      validate(value) {
+        const isAlpha = /^[a-zA-Z]+$/;
+        if (!isAlpha.test(value)) {
+          throw new Error('Invalid name');
+        }
+      },
     },
     email: {
       type: String,
@@ -24,6 +32,19 @@ const userSchema = mongoose.Schema(
         }
       },
     },
+    phone: {
+      type: String,
+      required: true,
+      unique: true,
+      trim: true,
+      lowercase: true,
+      validate(value) {
+        if (!validator.isMobilePhone(value, 'vi-VN')) {
+          throw new Error('Invalid phone number');
+        }
+      },
+    },
+    address: String,
     password: {
       type: String,
       required: true,

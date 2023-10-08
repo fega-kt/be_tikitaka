@@ -40,19 +40,18 @@ const getCarts = catchAsync(async (req, res) => {
 const addToCart = catchAsync(async (req, res) => {
   const {
     buy_count,
-    product_id
+    product_id,
   } = req.body
   const foundProduct = await cartService.getCartByIdProductTemp(product_id, statusCart.TEMP);
-  console.log(foundProduct, 'foundProduct')
   if (foundProduct) {
     // update tăng thêm 1
-    const cart = await cartService.updateCart({ product_id }, { buy_count: foundProduct.buy_count + buy_count });
-    return res.status(httpStatus.CREATED).send(cart);
+    const cart = await cartService.updateCart({ _id: foundProduct._id }, { buy_count: foundProduct.buy_count + buy_count });
+    return res.status(httpStatus.CREATED).send({ data: cart });
   } else {
     // create
     const body = { buy_count, product_id }
     const cart = await cartService.createCart(body);
-    return res.status(httpStatus.CREATED).send(cart);
+    return res.status(httpStatus.CREATED).send({ data: cart });
 
   }
 })

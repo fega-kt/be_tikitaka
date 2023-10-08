@@ -12,21 +12,22 @@ const queryCart = async (filter, options) => {
 };
 
 const createCart = async (userBody) => {
-  return Cart.create(userBody);
+  return await Cart.create(userBody);
 };
 const updateCart = async (filter, update) => {
-  return Cart.findOneAndUpdate(filter, update, {
-    new: true
+  return await Cart.findOneAndUpdate(filter, update, {
+    new: true,
+    useFindAndModify: false
   });
 };
 const getCartFilter = async (filter) => {
-  return Cart.find(filter)
+  return await Cart.find(filter)
 }
 const getCartById = async (id) => {
-  return Cart.findById(id);
+  return await Cart.findById(id);
 };
 const getCartByIdProductTemp = async (id, status) => {
-  return Cart.findOne({ product_id: id, status: status }).exec();
+  return await Cart.findOne({ product_id: id, status: status }).exec();
 };
 
 

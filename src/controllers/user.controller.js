@@ -8,7 +8,16 @@ const createUser = catchAsync(async (req, res) => {
   const user = await userService.createUser(req.body);
   res.status(httpStatus.CREATED).send(user);
 });
-
+const getMyProfile = catchAsync(async (req, res) => {
+  const { user } = req;
+  delete user.password;
+  res.send({ data: user });
+});
+const updateMyProfile = catchAsync(async (req, res) => {
+  const { user, body } = req;
+  const userUpdate = await userService.updateUserById(user._id, body)
+  res.send({ data: userUpdate });
+});
 const getUsers = catchAsync(async (req, res) => {
   const filter = pick(req.query, ['name', 'role']);
   const options = pick(req.query, ['sortBy', 'limit', 'page']);
@@ -40,4 +49,6 @@ module.exports = {
   getUser,
   updateUser,
   deleteUser,
+  getMyProfile,
+  updateMyProfile
 };

@@ -10,7 +10,10 @@ router
   .route('/')
   .post(auth('manageUsers'), validate(userValidation.createUser), userController.createUser)
   .get(auth('getUsers'), validate(userValidation.getUsers), userController.getUsers);
-
+router
+  .route('/me')
+  .get(auth('manageUsers'), validate(userValidation.getUser), userController.getMyProfile)
+  .put(auth('manageUsers'), validate(userValidation.getUser), userController.updateMyProfile)
 router
   .route('/:userId')
   .get(auth('getUsers'), validate(userValidation.getUser), userController.getUser)
