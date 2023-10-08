@@ -10,6 +10,10 @@ router
   .route('/')
   // .post(auth('getCart'), cartController.cart)
   .get(auth('getCart'), cartController.getCarts);
+router
+  .route('/add-to-cart')
+  .post(auth('getCart'), cartController.addToCart)
+// .get(auth('getCart'), cartController.getCarts);
 
 // router
 //   .route('/:userId')

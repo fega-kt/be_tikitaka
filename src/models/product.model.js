@@ -23,17 +23,29 @@ const productSchema = mongoose.Schema(
       default: 0
 
     },
-    discount: {  // Giá sau khi giảm
-      type: {
-        typeDiscount: {
-          type: String,
-          enum: Object.keys(typeDiscount)
-        },
-        discount: Number,
-      },
+    haveDiscount: {
+      type: Boolean,
+      required: true,
+      default: false,
+    },
+    price_before_discount: { // Giá truowsc khi giảm
+      type: Number,
+      // required: true,
       min: 0,
       default: 0
+
     },
+    // discount: {  // Giá sau khi giảm
+    //   type: {
+    //     typeDiscount: {
+    //       type: String,
+    //       enum: Object.keys(typeDiscount)
+    //     },
+    //     discount: Number,
+    //   },
+    //   min: 0,
+    //   default: 0
+    // },
     quantity: { // số lượng trong kho
       type: Number,
       required: true,

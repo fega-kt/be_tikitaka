@@ -4,7 +4,7 @@ const { statusCart } = require('../config/constantConfig');
 
 const productSchema = mongoose.Schema(
   {
-    product: {
+    product_id: {
       type: mongoose.SchemaTypes.ObjectId,
       ref: 'Product',
       required: true,
@@ -14,7 +14,7 @@ const productSchema = mongoose.Schema(
       default: -1,
       enum: [Object.values(statusCart)]
     },
-    count: {
+    buy_count: {
       type: Number,
       default: 1,
       min: 1,
