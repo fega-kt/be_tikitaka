@@ -6,6 +6,7 @@ const productRoute = require('./product.route');
 const cartRoute = require('./cart.route');
 const docsRoute = require('./docs.route');
 const config = require('../config/config');
+const uploadRoute = require('./upload.route');
 
 const router = express.Router();
 
@@ -13,6 +14,10 @@ const defaultRoutes = [
   {
     path: '/auth',
     route: authRoute,
+  },
+  {
+    path: '/upload',
+    route: uploadRoute,
   },
   {
     path: '/users',
