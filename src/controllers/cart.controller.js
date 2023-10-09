@@ -11,6 +11,7 @@ const { statusCart, status } = require('../config/constantConfig');
 // });
 
 const getCarts = catchAsync(async (req, res) => {
+  const { user } = req
   const filter = pick(req.query, ['status']) || {};
   if (filter.status === '0') {
     const status = statusCart;
@@ -18,9 +19,11 @@ const getCarts = catchAsync(async (req, res) => {
     delete status.TEMP;
     filter.status = { $in: Object.values(statusCart) }
   }
+  filter.owner = user._id
+
   const query = {
     populate: 'product_id',
-    limit: Number.MAX_SAFE_INTEGER
+    limit: Number.MAX_SAFE_INTEGER,
   }
   const options = pick(query, ['populate', 'limit']);
   const result = await cartService.queryCart(filter, options);
@@ -38,10 +41,11 @@ const getCarts = catchAsync(async (req, res) => {
   res.send(result);
 });
 const addToCart = catchAsync(async (req, res) => {
+  const { user, body } = req;
   const {
     buy_count,
     product_id,
-  } = req.body
+  } = body
   const foundProduct = await cartService.getCartByIdProductTemp(product_id, statusCart.TEMP);
   if (foundProduct) {
     // update tăng thêm 1
@@ -49,7 +53,7 @@ const addToCart = catchAsync(async (req, res) => {
     return res.status(httpStatus.CREATED).send({ data: cart });
   } else {
     // create
-    const body = { buy_count, product_id }
+    const body = { buy_count, product_id, owner: user._id }
     const cart = await cartService.createCart(body);
     return res.status(httpStatus.CREATED).send({ data: cart });
 

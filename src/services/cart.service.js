@@ -26,8 +26,8 @@ const getCartFilter = async (filter) => {
 const getCartById = async (id) => {
   return await Cart.findById(id);
 };
-const getCartByIdProductTemp = async (id, status) => {
-  return await Cart.findOne({ product_id: id, status: status }).exec();
+const getCartByIdProductTemp = async (id, status, owner) => {
+  return await Cart.findOne({ product_id: id, status: status, owner }).exec();
 };
 
 

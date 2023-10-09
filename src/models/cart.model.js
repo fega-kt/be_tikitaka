@@ -9,6 +9,11 @@ const productSchema = mongoose.Schema(
       ref: 'Product',
       required: true,
     },
+    owner: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User',
+      required: true
+    },
     status: {
       type: Number,
       default: -1,
