@@ -34,12 +34,12 @@ const userSchema = mongoose.Schema(
     },
     phone: {
       type: String,
-      required: true,
-      unique: true,
+      // required: true,
+      // unique: true,
       trim: true,
       lowercase: true,
       validate(value) {
-        if (!validator.isMobilePhone(value, 'vi-VN')) {
+        if (value && !validator.isMobilePhone(value, 'vi-VN')) {
           throw new Error('Invalid phone number');
         }
       },

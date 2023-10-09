@@ -27,7 +27,7 @@ const register = catchAsync(async (req, res) => {
 
   const mailOptions = {
     from: 'notifications.tikitaka@gmail.com',
-    to: 'fega.kt@gmail.com',
+    to: dataUser.email,
     subject: 'Chào mừng bạn đến với sàn thương mại điện tử Tiki Taka',
     text: "",
     html: handleGetContentEmail(dataUser.name, 'Tiki Taka', 'http://localhost:3456', 'http://localhost:3456', '')
