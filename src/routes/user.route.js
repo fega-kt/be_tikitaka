@@ -3,6 +3,7 @@ const auth = require('../middlewares/auth');
 const validate = require('../middlewares/validate');
 const userValidation = require('../validations/user.validation');
 const userController = require('../controllers/user.controller');
+const { addressController } = require('../controllers');
 
 const router = express.Router();
 
@@ -14,6 +15,10 @@ router
   .route('/me')
   .get(auth('manageUsers'), validate(userValidation.getUser), userController.getMyProfile)
   .put(auth('manageUsers'), validate(userValidation.getUser), userController.updateMyProfile)
+router
+  .route('/address')
+  .get(auth('manageUsers'), validate(userValidation.getUser), addressController.getMyAddress)
+  .put(auth('manageUsers'), validate(userValidation.getUser), addressController.updateMyAddress)
 router
   .route('/:userId')
   .get(auth('getUsers'), validate(userValidation.getUser), userController.getUser)
