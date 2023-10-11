@@ -7,7 +7,6 @@ const { statusCart, status } = require('../config/constantConfig');
 
 
 const queryAddress = async (filter) => {
-  console.log(filter, 'filter')
   const address = await Address.findOne(filter)
   return address;
 };

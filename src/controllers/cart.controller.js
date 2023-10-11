@@ -2,7 +2,7 @@ const httpStatus = require('http-status');
 const pick = require('../utils/pick');
 const ApiError = require('../utils/ApiError');
 const catchAsync = require('../utils/catchAsync');
-const { cartService, productService } = require('../services');
+const { cartService, productService, addressService } = require('../services');
 const { statusCart, status } = require('../config/constantConfig');
 
 // const createUser = catchAsync(async (req, res) => {
@@ -46,7 +46,7 @@ const addToCart = catchAsync(async (req, res) => {
     buy_count,
     product_id,
   } = body
-  const foundProduct = await cartService.getCartByIdProductTemp(product_id, statusCart.TEMP);
+  const foundProduct = await cartService.getCartByIdProductTemp(product_id, statusCart.TEMP, user._id);
   if (foundProduct) {
     // update tăng thêm 1
     const cart = await cartService.updateCart({ _id: foundProduct._id }, { buy_count: foundProduct.buy_count + buy_count });
@@ -56,11 +56,19 @@ const addToCart = catchAsync(async (req, res) => {
     const body = { buy_count, product_id, owner: user._id }
     const cart = await cartService.createCart(body);
     return res.status(httpStatus.CREATED).send({ data: cart });
-
   }
 })
 const buyProduct = catchAsync(async (req, res) => {
   const data = req.body;
+  const user = req.user
+  const filterAddress = {
+    owner: user._id,
+    status: status.ACTIVE
+  }
+  const findAddress = await addressService.queryAddress(filterAddress)
+  if (!findAddress) {
+    return res.status(httpStatus.BAD_REQUEST).send({ message: `Vui lòng cập nhật thông tin giao hàng` });
+  }
   const listProduct = data.map((it) => {
     const filter = {
       status: status.ACTIVE,
