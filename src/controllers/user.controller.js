@@ -14,7 +14,8 @@ const getMyProfile = catchAsync(async (req, res) => {
   delete user.password;
   if (user.avatar) {
     const avatar = getFileBase64(user.avatar);
-    if (avatar.status) user.avatar = avatar.avatar
+    console.log(11111, avatar)
+    if (avatar && avatar.status) user.avatar = avatar.avatar
   }
   res.send({ data: user });
 });
