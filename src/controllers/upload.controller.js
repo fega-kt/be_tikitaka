@@ -26,7 +26,7 @@ const uploadFile = catchAsync(async (req, res) => {
   }
   res.status(httpStatus.OK).send(data);
 });
-export const getFileBase64 = catchAsync(async (filename) => {
+const getFileBase64 = catchAsync(async (filename) => {
   const { filename } = req.params;
   const filePath = path.join(__dirname, 'uploads', filename);
 
@@ -48,6 +48,6 @@ export const getFileBase64 = catchAsync(async (filename) => {
   }
 })
 module.exports = {
-  uploadFile
-
+  uploadFile,
+  getFileBase64
 };
