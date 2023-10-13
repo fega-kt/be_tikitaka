@@ -45,7 +45,7 @@ const corsOptions = {
   credentials: true, // Enable credentials (cookies and HTTP authentication)
 };
 
-app.use(cors(corsOptions));
+// app.use(cors(corsOptions));
 // app.use(cors());
 // app.options('*', cors());
 
