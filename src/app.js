@@ -47,7 +47,7 @@ const corsOptions = {
 
 app.use(cors(corsOptions));
 // app.use(cors());
-app.options('*', cors());
+// app.options('*', cors());
 
 // jwt authentication
 app.use(passport.initialize());
