@@ -5,6 +5,7 @@ const catchAsync = require('../utils/catchAsync');
 const path = require('path');
 const { uploadService } = require('../services');
 const mime = require('mime-types');
+const fs = require('fs'); // Import the 'fs' module
 
 const uploadFile = catchAsync(async (req, res) => {
   const { file } = req;
