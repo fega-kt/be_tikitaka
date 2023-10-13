@@ -19,11 +19,10 @@ const uploadFile = catchAsync(async (req, res) => {
     name: file.originalname
   }
   const upload = await uploadService.createUpload(body);
-  console.log(req.file, 'req.file')
   const data = {
     message: "Upload ảnh đại diện thành công",
     // data: path.resolve(req.file.path)
-    data: req.file.fileName
+    data: req.file.filename
 
   }
   res.status(httpStatus.OK).send(data);
