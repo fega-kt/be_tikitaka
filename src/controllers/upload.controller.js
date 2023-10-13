@@ -27,7 +27,6 @@ const uploadFile = catchAsync(async (req, res) => {
   res.status(httpStatus.OK).send(data);
 });
 const getFileBase64 = catchAsync(async (filename) => {
-  const { filename } = req.params;
   const filePath = path.join(__dirname, 'uploads', filename);
 
   if (!filePath || !fs.existsSync(filePath)) {
