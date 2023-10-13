@@ -20,11 +20,33 @@ const uploadFile = catchAsync(async (req, res) => {
   const upload = await uploadService.createUpload(body);
   const data = {
     message: "Upload ảnh đại diện thành công",
-    data: path.resolve(req.file.path)
+    // data: path.resolve(req.file.path)
+    data: req.file.name
+
   }
   res.status(httpStatus.OK).send(data);
 });
+export const getFileBase64 = catchAsync(async (filename) => {
+  const { filename } = req.params;
+  const filePath = path.join(__dirname, 'uploads', filename);
 
+  if (!filePath || !fs.existsSync(filePath)) {
+    // return res.status(404).json({ message: 'File not found' });
+    return { status: 0 }
+  }
+
+  // Read the image file and convert it to base64
+  const imageBuffer = fs.readFileSync(filePath);
+  const base64ImageData = imageBuffer.toString('base64');
+
+  // Create the response data
+  const responseData = { avatar: `data:image/png;base64,${base64ImageData}` };
+
+  return {
+    avatar: `data:image/png;base64,${base64ImageData}`,
+    status: 1
+  }
+})
 module.exports = {
   uploadFile
 

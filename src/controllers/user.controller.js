@@ -11,6 +11,10 @@ const createUser = catchAsync(async (req, res) => {
 const getMyProfile = catchAsync(async (req, res) => {
   const { user } = req;
   delete user.password;
+  if (user.avatar) {
+    const avatar = await getFileBase64(user.avatar);
+    if (avatar.status) user.avatar = avatar.avatar
+  }
   res.send({ data: user });
 });
 const updateMyProfile = catchAsync(async (req, res) => {
