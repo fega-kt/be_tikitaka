@@ -3,7 +3,6 @@ const pick = require('../utils/pick');
 const ApiError = require('../utils/ApiError');
 const catchAsync = require('../utils/catchAsync');
 const { userService } = require('../services');
-const { getFileBase64 } = require('./upload.controller');
 
 const createUser = catchAsync(async (req, res) => {
   const user = await userService.createUser(req.body);
@@ -12,11 +11,6 @@ const createUser = catchAsync(async (req, res) => {
 const getMyProfile = catchAsync(async (req, res) => {
   const { user } = req;
   delete user.password;
-  if (user.avatar) {
-    const avatar = getFileBase64(user.avatar);
-    console.log(11111, avatar)
-    if (avatar && avatar.status) user.avatar = avatar.avatar
-  }
   res.send({ data: user });
 });
 const updateMyProfile = catchAsync(async (req, res) => {
