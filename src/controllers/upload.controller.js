@@ -6,6 +6,7 @@ const path = require('path');
 const { uploadService } = require('../services');
 const mime = require('mime-types');
 const fs = require('fs'); // Import the 'fs' module
+const config = require('../config/config');
 
 const uploadFile = catchAsync(async (req, res) => {
   const { file } = req;
@@ -21,9 +22,7 @@ const uploadFile = catchAsync(async (req, res) => {
   const upload = await uploadService.createUpload(body);
   const data = {
     message: "Upload ảnh đại diện thành công",
-    // data: path.resolve(req.file.path)
-    data: req.file.filename
-
+    data: config.serverName + path.resolve(req.file.path)
   }
   res.status(httpStatus.OK).send(data);
 });
