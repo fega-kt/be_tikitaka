@@ -30,7 +30,7 @@ const register = catchAsync(async (req, res) => {
     to: dataUser.email,
     subject: 'Chào mừng bạn đến với sàn thương mại điện tử Tiki Taka',
     text: "",
-    html: handleGetContentEmail(dataUser.name, 'Tiki Taka', 'http://localhost:3456', 'http://localhost:3456', '')
+    html: handleGetContentEmail(dataUser.name, 'Tiki Taka', 'https://tikitaka.fega.online/', 'https://tikitaka.fega.online/', '')
   };
 
   // Send email
