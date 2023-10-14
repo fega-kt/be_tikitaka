@@ -29,8 +29,9 @@ const uploadFile = catchAsync(async (req, res) => {
 });
 const getFile = catchAsync(async (req, res) => {
   const { filename } = req.params;
-  const filePath = path.join(__dirname, '..', '..', 'uploads', filename);
-  console.log(111111, filePath)
+  const { type } = req.query
+  const pathFolder = type ? `uploads/${type}` : 'uploads'
+  const filePath = path.join(__dirname, '..', '..', pathFolder, filename);
   if (!filePath || !fs.existsSync(filePath)) {
     return res.status(404).json({ message: 'File not found' });
   }
