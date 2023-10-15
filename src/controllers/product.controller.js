@@ -5,10 +5,13 @@ const catchAsync = require('../utils/catchAsync');
 const { productService } = require('../services');
 
 const createProduct = catchAsync(async (req, res) => {
-  const { name, price, discount, quantity, category, description, image, images } = req.body;
+  const { name, price, discount, quantity, category, description, image, images, price_before_discount } = req.body;
   const body = {
-    name, price, discount, quantity, category, description, image, images
+    name, price, discount, quantity, category, description, image, images, price_before_discount
   }
+  console.log(1111111111, description)
+  console.log(1111111111, unescape(description))
+
   const categories = await productService.createProduct(body);
   res.status(httpStatus.CREATED).send(categories);
 });
